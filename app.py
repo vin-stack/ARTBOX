@@ -58,7 +58,6 @@ def artbox():
                 f.write(image_bytes)
             imag = Image.open('image.jpg')
             image = remove(imag)
-            image.save('output.png')
             return image
         except:
             with open('image.jpg', 'wb') as f:
@@ -119,7 +118,7 @@ def live_face_detection():
     enable_detection1 = st.checkbox("Enable Face Detection", value=False)
     cascade1 = cv2.CascadeClassifier('face.xml')
 
-    overlay = cv2.imread('output.png', cv2.IMREAD_UNCHANGED)
+    overlay = cv2.imread(image, cv2.IMREAD_UNCHANGED)
     overlay_applied = False
     frame = st.camera_input("Live Webcam Feed")
 
