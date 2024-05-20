@@ -97,8 +97,8 @@ def artbox():
                 commit_message = "Add generated image"  # Adjust the commit message as needed
                 repo.index.commit(commit_message)
 
-    # Push the changes to the remote GitHub repo
-    repo.remote(name="origin").push()
+                # Push the changes to the remote GitHub repo
+                repo.remote(name="origin").push()
                 st.session_state["request_count"] += 1
                 st.session_state["art_generated"] = True
             else:
