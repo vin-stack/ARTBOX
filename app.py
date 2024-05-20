@@ -10,7 +10,11 @@ import cvzone
 import numpy as np
 from io import BytesIO
 from streamlit_extras.stodo import to_do
+import git
 
+# Initialize Git repo
+repo = git.Repo("https://github.com/vin-stack/ARTBOX/tree/main")  # Update with your GitHub repository path
+repo_path = "https://github.com/vin-stack/ARTBOX/tree/main"  # Update with your GitHub repository path
 # Page navigation
 def navigate_to(page):
     st.session_state.page = page
@@ -88,6 +92,13 @@ def artbox():
             if st.session_state["request_count"] < MEMBERSHIP_LEVELS[st.session_state["membership"]][1]:
                 generated_image = generate_unique_image(f"{prompt} {' '.join(styles)}")
                 st.image(generated_image, width=500)
+                generated_image.save("output.png") 
+                repo.index.add(["output.png"])
+                commit_message = "Add generated image"  # Adjust the commit message as needed
+                repo.index.commit(commit_message)
+
+    # Push the changes to the remote GitHub repo
+    repo.remote(name="origin").push()
                 st.session_state["request_count"] += 1
                 st.session_state["art_generated"] = True
             else:
@@ -114,7 +125,7 @@ def live_face_detection():
     cascade1 = cv2.CascadeClassifier('face.xml')
 
     # Use the previously generated image as overlay
-    overlay = st.session_state.get("generated_image")
+    overlay = cv2.imread('output.png', cv2.IMREAD_UNCHANGED)
     overlay_applied = False
 
     frame = st.camera_input("Live Webcam Feed")
