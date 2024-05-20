@@ -115,7 +115,7 @@ def live_face_detection():
     enable_detection1 = st.checkbox("Enable Face Detection", value=False)
     cascade1 = cv2.CascadeClassifier('face.xml')
 
-    overlay = cv2.imread(image, cv2.IMREAD_UNCHANGED)
+    overlay = image
     overlay_applied = False
     frame = st.camera_input("Live Webcam Feed")
 
