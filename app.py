@@ -106,7 +106,7 @@ def artbox():
                 )
 
 # Page 2: Live Face Detection
-def live_face_detection():
+def live_face_detection(image):
     st.title("Live Face Detection with Overlay")
 
     enable_detection = st.checkbox("Enable hand Detection", value=False)
@@ -181,4 +181,4 @@ if "page" not in st.session_state:
 if st.session_state.page == "artbox":
     artbox()
 elif st.session_state.page == "live_face_detection":
-    live_face_detection()
+    live_face_detection(image)
