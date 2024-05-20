@@ -4,7 +4,7 @@ import time
 import random
 from PIL import Image
 import io
-from rembg import remove
+
 import cv2
 import cvzone
 import numpy as np
