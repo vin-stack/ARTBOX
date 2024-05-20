@@ -181,4 +181,4 @@ if "page" not in st.session_state:
 if st.session_state.page == "artbox":
     artbox()
 elif st.session_state.page == "live_face_detection":
-    live_face_detection(image)
+    live_face_detection()
