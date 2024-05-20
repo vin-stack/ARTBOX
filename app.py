@@ -9,6 +9,7 @@ import cv2
 import cvzone
 import numpy as np
 from io import BytesIO
+from streamlit_extras.stodo import to_do
 
 # Page navigation
 def navigate_to(page):
@@ -112,13 +113,9 @@ def live_face_detection():
     enable_detection1 = st.checkbox("Enable Face Detection", value=False)
     cascade1 = cv2.CascadeClassifier('face.xml')
 
-    overlay = None  # Initialize overlay variable
-
-    if st.session_state["art_generated"]:
-        overlay = generate_unique_image("Your prompt here")  # Call the function to generate the image
-
-    if overlay is not None:
-        overlay_applied = True
+    # Use the previously generated image as overlay
+    overlay = st.session_state.get("generated_image")
+    overlay_applied = False
 
     frame = st.camera_input("Live Webcam Feed")
 
@@ -175,8 +172,6 @@ def live_face_detection():
             [(st.write, "Yes Proceed to Artbox")],
             "Yes",
         )
-
-# Initialize session state
 if "page" not in st.session_state:
     st.session_state.page = "artbox"
 
