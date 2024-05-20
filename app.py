@@ -136,13 +136,27 @@ def live_face_detection():
     overlay = cv2.imread('output.png', cv2.IMREAD_UNCHANGED)
     overlay_applied = False
 
-    frame = st.camera_input("Live Webcam Feed")
+    frame_source = st.radio("Choose input source", ("Live Camera", "Upload Image"))
+
+    if frame_source == "Live Camera":
+        frame = st.camera_input("Live Webcam Feed")
+    else:
+        uploaded_file = st.file_uploader("Upload an Image", type=["jpg", "jpeg", "png"])
+        if uploaded_file:
+            frame = Image.open(uploaded_file)
+            frame = np.array(frame)
+            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)  # Convert PIL image to OpenCV format
+        else:
+            frame = None
+
     st.info("For tattoo add-on human face should be visible to the camera(rear/front)")
 
     if frame is not None:
-        frame_bytes = frame.read()  # Read bytes from UploadedFile
-        frame = np.frombuffer(frame_bytes, dtype=np.uint8)
-        frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)  # Decode from bytes
+        if frame_source == "Live Camera":
+            frame_bytes = frame.read()  # Read bytes from UploadedFile
+            frame = np.frombuffer(frame_bytes, dtype=np.uint8)
+            frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)  # Decode from bytes
+
         gray_scale = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         # Function to process a frame and apply face detection and overlay
