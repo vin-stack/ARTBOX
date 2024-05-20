@@ -11,10 +11,14 @@ import numpy as np
 from io import BytesIO
 from streamlit_extras.stodo import to_do
 import git
+import os
 
 # Initialize Git repo
-repo = git.Repo("https://github.com/vin-stack/ARTBOX/tree/main")  # Update with your GitHub repository path
-repo_path = "https://github.com/vin-stack/ARTBOX/tree/main"  # Update with your GitHub repository path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Initialize Git repo
+repo = git.Repo(current_dir)
+
 # Page navigation
 def navigate_to(page):
     st.session_state.page = page
