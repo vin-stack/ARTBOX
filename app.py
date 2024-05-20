@@ -130,6 +130,7 @@ def live_face_detection():
     
     enable_detection2 = st.checkbox("Enable human body Detection", value=False)
     cascade1 = cv2.CascadeClassifier('face.xml')
+    st.caption("More filter options will be coming soon.")
 
     # Use the previously generated image as overlay
     overlay = cv2.imread('output.png', cv2.IMREAD_UNCHANGED)
@@ -150,19 +151,19 @@ def live_face_detection():
                 hands = cascade.detectMultiScale(gray_scale)
                 for (x, y, w, h) in hands:
                     overlay_resize = cv2.resize(overlay, (int(w * overlay_scale), int(h * overlay_scale)))
-                    frame = cvzone.overlayPNG(frame, overlay_resize, [x + overlay_x_offset, y + overlay_y_offset])
+                    frame = cvzone.overlayPNG(frame, overlay_resize, [x + overlay_x_offset, y +190+ overlay_y_offset])
 
             if enable_detection1:
                 faces = cascade1.detectMultiScale(gray_scale)
                 for (x, y, w, h) in faces:
-                    overlay_resize = cv2.resize(overlay, (int(w *0.5* overlay_scale), int(h *0.5* overlay_scale)))
-                    frame = cvzone.overlayPNG(frame, overlay_resize, [x + overlay_x_offset, y + overlay_y_offset])
+                    overlay_resize = cv2.resize(overlay, (int(w *0.35* overlay_scale), int(h *0.35* overlay_scale)))
+                    frame = cvzone.overlayPNG(frame, overlay_resize, [x + overlay_x_offset, y +50+ overlay_y_offset])
                     
             if enable_detection2:
                 faces = cascade1.detectMultiScale(gray_scale)
                 for (x, y, w, h) in faces:
                     overlay_resize = cv2.resize(overlay, (int(w *0.8* overlay_scale), int(h *0.8* overlay_scale)))
-                    frame = cvzone.overlayPNG(frame, overlay_resize, [x + 30 +overlay_x_offset, y + 30 +overlay_y_offset])
+                    frame = cvzone.overlayPNG(frame, overlay_resize, [x + 55 +overlay_x_offset, y + 140 +overlay_y_offset])
 
             return frame
 
