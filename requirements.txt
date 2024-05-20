@@ -2,8 +2,9 @@
 streamlit
 requests
 Pillow
-opencv-python-headless
+
 numpy
 cvzone
 rembg==2.0.56
 streamlit-extras
+opencv-python-headless
