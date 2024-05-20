@@ -54,10 +54,8 @@ def artbox():
 
         try:
             image = Image.open(io.BytesIO(image_bytes))
-            with open('image.jpg', 'wb') as f:
-                f.write(image_bytes)
-            imag = Image.open('image.jpg')
-            image = remove(imag)
+            
+            image = remove(image_bytes)
             return image
         except:
             with open('image.jpg', 'wb') as f:
