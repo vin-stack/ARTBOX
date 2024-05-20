@@ -94,7 +94,7 @@ def artbox():
 
         if st.button("Generate Art"):
             if st.session_state["request_count"] < MEMBERSHIP_LEVELS[st.session_state["membership"]][1]:
-                generated_image = generate_unique_image(f"{prompt} {' '.join(styles)}")
+                generated_image = generate_unique_image(f"{"Generate a tattoo art design sketch of "}{prompt} {' '.join(styles)}")
                 st.image(generated_image, width=500)
                 generated_image.save("output.png") 
                 repo.index.add(["output.png"])
