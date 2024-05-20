@@ -63,7 +63,7 @@ def artbox():
         try:
             image = Image.open(io.BytesIO(image_bytes))
             image = remove(image)
-            return np.array(image)  # Return the image as numpy array
+            return image  # Return the image as numpy array
         except Exception as e:
             print(f"Error processing image: {e}")
             return None
