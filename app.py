@@ -109,7 +109,8 @@ def artbox():
         st.markdown("_____")
 
         if st.session_state["art_generated"]:
-            if st.button("Call AI"):
+            if st.button("Apply this tattoo."):
+                st.session_state["art_generated"] = False
                 navigate_to("live_face_detection")
                 to_do(
                     [(st.write, "Yes Proceed")],
@@ -118,19 +119,21 @@ def artbox():
 
 # Page 2: Live Face Detection
 def live_face_detection():
-    st.title("Live Face Detection with Overlay")
+    st.title("ARTBOX")
 
-    enable_detection = st.checkbox("Enable hand Detection", value=False)
-    cascade = cv2.CascadeClassifier('hand.xml')
+    #enable_detection = st.checkbox("Enable hand Detection", value=False)
     
-    enable_detection1 = st.checkbox("Enable Face Detection", value=False)
+    
+    enable_detection1 = st.checkbox("Enable human face/hand Detection", value=False)
     cascade1 = cv2.CascadeClassifier('face.xml')
+    cascade = cv2.CascadeClassifier('hand.xml')
 
     # Use the previously generated image as overlay
     overlay = cv2.imread('output.png', cv2.IMREAD_UNCHANGED)
     overlay_applied = False
 
     frame = st.camera_input("Live Webcam Feed")
+    st.info("For tattoo add-on human face should be visible to the camera(rear/front)")
 
     if frame is not None:
         frame_bytes = frame.read()  # Read bytes from UploadedFile
@@ -140,7 +143,7 @@ def live_face_detection():
 
         # Function to process a frame and apply face detection and overlay
         def process_frame(frame):
-            if enable_detection:
+            if enable_detection1:
                 hands = cascade.detectMultiScale(gray_scale)
                 for (x, y, w, h) in hands:
                     overlay_resize = cv2.resize(overlay, (int(w * overlay_scale), int(h * overlay_scale)))
@@ -155,6 +158,7 @@ def live_face_detection():
             return frame
 
         # Sliders for overlay size and position adjustments
+        st.write("Adjust these sliders to fit tattoo at your desired location.")
         overlay_scale = st.slider("Overlay Scale", 0.1, 2.0, 1.0, step=0.1)
         overlay_x_offset = st.slider("Overlay X Offset", -200, 200, 0, step=10)
         overlay_y_offset = st.slider("Overlay Y Offset", -200, 200, 0, step=10)
