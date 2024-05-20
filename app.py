@@ -121,12 +121,15 @@ def artbox():
 def live_face_detection():
     st.title("ARTBOX")
 
-    #enable_detection = st.checkbox("Enable hand Detection", value=False)
-    
-    
-    enable_detection1 = st.checkbox("Enable human face/hand Detection", value=False)
-    cascade1 = cv2.CascadeClassifier('face.xml')
+    enable_detection = st.checkbox("Enable hand Detection", value=False)
     cascade = cv2.CascadeClassifier('hand.xml')
+    
+    
+    enable_detection1 = st.checkbox("Enable human face Detection", value=False)
+    cascade1 = cv2.CascadeClassifier('face.xml')
+    
+    enable_detection2 = st.checkbox("Enable human body Detection", value=False)
+    cascade1 = cv2.CascadeClassifier('face.xml')
 
     # Use the previously generated image as overlay
     overlay = cv2.imread('output.png', cv2.IMREAD_UNCHANGED)
@@ -143,7 +146,7 @@ def live_face_detection():
 
         # Function to process a frame and apply face detection and overlay
         def process_frame(frame):
-            if enable_detection1:
+            if enable_detection:
                 hands = cascade.detectMultiScale(gray_scale)
                 for (x, y, w, h) in hands:
                     overlay_resize = cv2.resize(overlay, (int(w * overlay_scale), int(h * overlay_scale)))
@@ -152,8 +155,14 @@ def live_face_detection():
             if enable_detection1:
                 faces = cascade1.detectMultiScale(gray_scale)
                 for (x, y, w, h) in faces:
-                    overlay_resize = cv2.resize(overlay, (int(w * overlay_scale), int(h * overlay_scale)))
+                    overlay_resize = cv2.resize(overlay, (int(w *0.5* overlay_scale), int(h *0.5* overlay_scale)))
                     frame = cvzone.overlayPNG(frame, overlay_resize, [x + overlay_x_offset, y + overlay_y_offset])
+                    
+            if enable_detection2:
+                faces = cascade1.detectMultiScale(gray_scale)
+                for (x, y, w, h) in faces:
+                    overlay_resize = cv2.resize(overlay, (int(w *0.8* overlay_scale), int(h *0.8* overlay_scale)))
+                    frame = cvzone.overlayPNG(frame, overlay_resize, [x + 30 +overlay_x_offset, y + 30 +overlay_y_offset])
 
             return frame
 
