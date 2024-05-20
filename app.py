@@ -8,7 +8,6 @@ from rembg import remove
 import cv2
 import cvzone
 import numpy as np
-from streamlit_extras.stodo import to_do
 from io import BytesIO
 
 # Page navigation
@@ -55,12 +54,10 @@ def artbox():
         try:
             image = Image.open(io.BytesIO(image_bytes))
             image = remove(image)
-            return image
-        except:
-            with open('image.jpg', 'wb') as f:
-                f.write(image_bytes)
-            image = Image.open('image.jpg')
-        return image
+            return np.array(image)  # Return the image as numpy array
+        except Exception as e:
+            print(f"Error processing image: {e}")
+            return None
 
     def show_membership_info():
         selected_membership = st.selectbox("Select Membership", list(MEMBERSHIP_LEVELS.keys()))
@@ -106,7 +103,7 @@ def artbox():
                 )
 
 # Page 2: Live Face Detection
-def live_face_detection(image):
+def live_face_detection():
     st.title("Live Face Detection with Overlay")
 
     enable_detection = st.checkbox("Enable hand Detection", value=False)
@@ -115,8 +112,14 @@ def live_face_detection(image):
     enable_detection1 = st.checkbox("Enable Face Detection", value=False)
     cascade1 = cv2.CascadeClassifier('face.xml')
 
-    overlay = image
-    overlay_applied = False
+    overlay = None  # Initialize overlay variable
+
+    if st.session_state["art_generated"]:
+        overlay = generate_unique_image("Your prompt here")  # Call the function to generate the image
+
+    if overlay is not None:
+        overlay_applied = True
+
     frame = st.camera_input("Live Webcam Feed")
 
     if frame is not None:
